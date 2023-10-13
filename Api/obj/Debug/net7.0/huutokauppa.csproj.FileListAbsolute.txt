@@ -76,3 +76,5 @@ C:\Users\tomng\huutokauppa\api\obj\Debug\net7.0\refint\huutokauppa.dll
 C:\Users\tomng\huutokauppa\api\obj\Debug\net7.0\huutokauppa.pdb
 C:\Users\tomng\huutokauppa\api\obj\Debug\net7.0\huutokauppa.genruntimeconfig.cache
 C:\Users\tomng\huutokauppa\api\obj\Debug\net7.0\ref\huutokauppa.dll
+C:\Users\tomng\huutokauppa\Api\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\tomng\huutokauppa\Api\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll

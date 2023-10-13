@@ -1,18 +1,30 @@
-import { List } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Product } from "../../app/models/product";
 import ProductCard from "./ProductCard";
+import Chat from "../Chat";
 interface Props {
   products: Product[];
 }
 export default function ProductList({ products }: Props) {
   return (
-    <List className="auctionList">
+    <Grid
+      container
+      spacing={4}
+    >
       {products.map(item => (
-        <ProductCard
+        <Grid
+          item
+          xs={4}
           key={item.id}
-          product={item}
-        />
+        >
+          <ProductCard
+            key={item.id}
+            product={item}
+          />
+        </Grid>
       ))}
-    </List>
+
+      <Chat />
+    </Grid>
   );
 }

@@ -8,5 +8,7 @@ interface Props {
 export default function Catalog({ products }: Props) {
   return (
       <ProductList products={products} />
+
+
   );
 }

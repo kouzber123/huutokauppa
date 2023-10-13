@@ -1,6 +1,6 @@
 .auctionList {
   display: grid;
-  grid-template-columns: 1fr ;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 1rem;
 }
@@ -29,3 +29,4 @@
 .product-image {
   width: 10rem;
 }
+

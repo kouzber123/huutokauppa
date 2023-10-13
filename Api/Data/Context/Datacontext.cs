@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Data.Models;
 using huutokauppa.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ namespace huutokauppa.Data.context
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Auctioneer> Auctioneers { get; set; }
         public DbSet<Bid> Bids { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

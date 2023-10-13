@@ -1,4 +1,7 @@
 
+using Api.Data.Chat;
+using Api.Data.Repositories;
+using Api.Data.Repositories.Interface;
 using huutokauppa.Data.context;
 using huutokauppa.Data.Models;
 using huutokauppa.Data.Repositories;
@@ -15,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
+builder.Services.AddScoped<IChat, ChatMessageRepository>();
 
 builder.Services.AddDbContext<Datacontext>(option =>
 {
@@ -23,7 +27,10 @@ builder.Services.AddDbContext<Datacontext>(option =>
 });
 
 builder.Services.AddCors();
-
+builder.Services.AddSignalR(opt =>
+{
+    opt.EnableDetailedErrors = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,12 +41,21 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors(opt =>
 {
-    opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 });
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseRouting();
+
+// app.UseEndpoints(endpoints =>
+// {
+//     endpoints.MapHub<ChatHub>("/chatHub");
+
+// });
+app.MapHub<ChatHub>("/chatHub");
 app.MapControllers();
 
 app.Run();
