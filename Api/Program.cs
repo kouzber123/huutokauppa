@@ -18,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
-builder.Services.AddScoped<IChat, ChatMessageRepository>();
+builder.Services.AddScoped<IMessage, MessageRepository>();
 
 builder.Services.AddDbContext<Datacontext>(option =>
 {

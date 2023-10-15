@@ -21,7 +21,7 @@ namespace huutokauppa.Data.context
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Auctioneer> Auctioneers { get; set; }
         public DbSet<Bid> Bids { get; set; }
-        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,7 +35,13 @@ namespace huutokauppa.Data.context
 
 );
 
-
+            modelBuilder.Entity<Message>().HasData(
+                new Message {Id= 1, Sender= "haggins", Content="I want this"},
+                new Message {Id= 2, Sender= "gayman", Content="how much"},
+                new Message {Id= 3, Sender= "david", Content="do you sell winter tires"},
+                new Message {Id= 4, Sender= "james", Content="no more scams!"},
+                new Message {Id= 5, Sender= "kluuvi", Content="cool cars"}
+            );
             modelBuilder.Entity<AuctionBidder>().HasData(
                 new AuctionBidder { Id = 1 },
                 new AuctionBidder { Id = 2 }

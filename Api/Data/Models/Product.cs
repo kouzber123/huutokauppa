@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Data.Models;
 
 namespace huutokauppa.Data.Models
 {
@@ -16,7 +17,7 @@ namespace huutokauppa.Data.Models
         public string Image { get; set; }
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
-
+        public List<Message> Messages { get; set; } = new List<Message>();
 
     }
 }

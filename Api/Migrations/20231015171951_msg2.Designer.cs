@@ -12,8 +12,8 @@ using huutokauppa.Data.context;
 namespace huutokauppa.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20231011151056_init")]
-    partial class init
+    [Migration("20231015171951_msg2")]
+    partial class msg2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,70 @@ namespace huutokauppa.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Api.Data.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Messages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "I want this",
+                            Sender = "haggins",
+                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8344)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "how much",
+                            Sender = "gayman",
+                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8347)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "do you sell winter tires",
+                            Sender = "david",
+                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8349)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "no more scams!",
+                            Sender = "james",
+                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8350)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Content = "cool cars",
+                            Sender = "kluuvi",
+                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8352)
+                        });
+                });
 
             modelBuilder.Entity("AuctionAuctionBidder", b =>
                 {
@@ -339,6 +403,13 @@ namespace huutokauppa.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Api.Data.Models.Message", b =>
+                {
+                    b.HasOne("huutokauppa.Data.Models.Product", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("AuctionAuctionBidder", b =>
                 {
                     b.HasOne("huutokauppa.Data.Models.AuctionBidder", null)
@@ -454,6 +525,11 @@ namespace huutokauppa.Migrations
             modelBuilder.Entity("huutokauppa.Data.Models.Auctioneer", b =>
                 {
                     b.Navigation("Auctions");
+                });
+
+            modelBuilder.Entity("huutokauppa.Data.Models.Product", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

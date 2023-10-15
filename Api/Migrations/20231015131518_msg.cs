@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace huutokauppa.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class msg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -95,6 +96,28 @@ namespace huutokauppa.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FormattedTimeStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -247,6 +270,18 @@ namespace huutokauppa.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "Content", "FormattedTimeStamp", "ProductId", "Sender", "Timestamp" },
+                values: new object[,]
+                {
+                    { 1, "I want this", null, null, "haggins", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5003) },
+                    { 2, "how much", null, null, "gayman", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5008) },
+                    { 3, "do you sell winter tires", null, null, "david", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5009) },
+                    { 4, "no more scams!", null, null, "james", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5010) },
+                    { 5, "cool cars", null, null, "kluuvi", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5011) }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Image", "Name", "OwnerId", "OwnerName", "Price" },
                 values: new object[,]
@@ -332,6 +367,11 @@ namespace huutokauppa.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Messages_ProductId",
+                table: "Messages",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_ProductId",
                 table: "Photos",
                 column: "ProductId");
@@ -356,6 +396,9 @@ namespace huutokauppa.Migrations
 
             migrationBuilder.DropTable(
                 name: "Bids");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Photos");

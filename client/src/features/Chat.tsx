@@ -7,10 +7,42 @@ export default function Chat() {
   const [messages, setMessages] = useState<string[]>([]);
   const [user, setUser] = useState("");
   const [message, setMessage] = useState("");
-  const [messageObj, setMessageObj] = useState<chatMessage>({
-    sender: "",
-    content: "",
-  });
+
+  // const [loadComments, setLoadComments] = useState<chatMessage[]>([]);
+  // const [messageObj, setMessageObj] = useState<chatMessage>({
+  //   sender: "",
+  //   content: "",
+  // });
+
+  const loadComments = [
+    {
+      sender: "Sender1",
+      content: "Comment 1",
+      timestamp: new Date(),
+    },
+    {
+      sender: "Sender2",
+      content: "Comment 2",
+      timestamp: new Date(),
+    },
+    {
+      sender: "Sender3",
+      content: "Comment 3",
+      timestamp: new Date(),
+    },
+    // Add more comments as needed
+  ];
+  useEffect(() => {
+    fetch("http://localhost:5009/api/Message/commentList")
+      .then(data => data.json())
+      .then((response: chatMessage[]) => {
+        const mapped = response.map(item => `${item.sender} ${item.content}`);
+
+        console.log(mapped);
+        setMessages(mapped);
+      });
+  }, []);
+
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl("http://localhost:5009/chatHub")
@@ -23,9 +55,11 @@ export default function Chat() {
         setConnection(newConnection);
       })
       .catch(err => console.log(err));
-    //receivemessage is client side method > this comes from server
-    newConnection.on("ReceiveMessage", (message: chatMessage) => {
-      setMessages([...messages, `${message.sender} :  ${message.content} `]);
+
+    // Make a request to the server to retrieve comments when the component mount
+
+    newConnection.on("LoadComments", (message: chatMessage[]) => {
+      setMessages(prevMessages => [...prevMessages, ...message.map(msg => `${msg.sender} :  ${msg.content}`)]);
     });
 
     newConnection.onreconnecting(() => {
@@ -39,17 +73,12 @@ export default function Chat() {
       newConnection.stop();
     };
   }, [messages]);
-  useEffect(() => {
-    setMessageObj({
-      sender: user,
-      content: message,
-    });
-  }, [message, user]);
+  // : Promise<chatMessage[]>
+
   const sendMessage = () => {
     if (connection) {
-      //   const messageObj = { sender: user, content: message };
-      connection.invoke("SendMessage", messageObj); //invokes method in serverside this sends to server
-      setMessage("");
+      connection.invoke("SendProductComments", loadComments);
+      console.log(loadComments.length);
     }
   };
 
@@ -69,7 +98,8 @@ export default function Chat() {
           value={message}
           onChange={e => setMessage(e.target.value)}
         />
-        <button onClick={sendMessage}>Send</button>
+        {/* <button onClick={sendMessage}>Send</button> */}
+        <button onClick={sendMessage}>LoadComments</button>
       </div>
       <div>
         {messages.map((msg, index) => (
