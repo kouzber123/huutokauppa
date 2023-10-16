@@ -44,7 +44,7 @@ namespace Api.Data.Repositories
         public async Task<ActionResult<Message>> SaveMessageAsync(Message message)
         {
             await _datacontext.Messages.AddAsync(message);
-
+            await _datacontext.SaveChangesAsync();
             return new OkResult();
         }
     }

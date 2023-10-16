@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import { Product } from "../../app/models/product";
 import ProductCard from "./ProductCard";
-import Chat from "../Chat";
 interface Props {
   products: Product[];
 }
@@ -24,7 +23,6 @@ export default function ProductList({ products }: Props) {
         </Grid>
       ))}
 
-      <Chat />
     </Grid>
   );
 }

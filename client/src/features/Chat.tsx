@@ -7,6 +7,7 @@ export default function Chat() {
   const [messages, setMessages] = useState<string[]>([]);
   const [user, setUser] = useState("");
   const [message, setMessage] = useState("");
+  const [messageObj, setMessageObj] = useState<chatMessage>({ sender: "", content: "" });
 
   // const [loadComments, setLoadComments] = useState<chatMessage[]>([]);
   // const [messageObj, setMessageObj] = useState<chatMessage>({
@@ -14,24 +15,6 @@ export default function Chat() {
   //   content: "",
   // });
 
-  const loadComments = [
-    {
-      sender: "Sender1",
-      content: "Comment 1",
-      timestamp: new Date(),
-    },
-    {
-      sender: "Sender2",
-      content: "Comment 2",
-      timestamp: new Date(),
-    },
-    {
-      sender: "Sender3",
-      content: "Comment 3",
-      timestamp: new Date(),
-    },
-    // Add more comments as needed
-  ];
   useEffect(() => {
     fetch("http://localhost:5009/api/Message/commentList")
       .then(data => data.json())
@@ -44,9 +27,11 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
+    //this creates connection
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl("http://localhost:5009/chatHub")
       .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.Information)
       .build();
 
     newConnection
@@ -57,31 +42,22 @@ export default function Chat() {
       .catch(err => console.log(err));
 
     // Make a request to the server to retrieve comments when the component mount
-
-    newConnection.on("LoadComments", (message: chatMessage[]) => {
-      setMessages(prevMessages => [...prevMessages, ...message.map(msg => `${msg.sender} :  ${msg.content}`)]);
-    });
-
-    newConnection.onreconnecting(() => {
-      console.log("Reconnecting...");
-    });
-
-    newConnection.onreconnected(() => {
-      console.log("Reconnected!");
+    newConnection.on("LoadComments", (message: chatMessage) => {
+      setMessages(prevMessages => [...prevMessages, `${message.sender} ${message.content}`]);
     });
     return () => {
-      newConnection.stop();
+      newConnection.stop().catch(err => console.log("error stoping connection ", err));
     };
   }, [messages]);
-  // : Promise<chatMessage[]>
 
   const sendMessage = () => {
     if (connection) {
-      connection.invoke("SendProductComments", loadComments);
-      console.log(loadComments.length);
+      connection.invoke("SendProductComments", messageObj);
     }
   };
-
+  useEffect(() => {
+    setMessageObj({ sender: user, content: message });
+  }, [user, message]);
   return (
     <div>
       <div>
