@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace huutokauppa.Migrations
 {
     /// <inheritdoc />
-    public partial class msg : Migration
+    public partial class newlist : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,23 +38,6 @@ namespace huutokauppa.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OwnerId = table.Column<int>(type: "int", nullable: false),
-                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -63,61 +46,17 @@ namespace huutokauppa.Migrations
                     Fname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Lname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Auctions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AuctioneerId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Auctions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Auctions_Auctioneers_AuctioneerId",
-                        column: x => x.AuctioneerId,
-                        principalTable: "Auctioneers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Auctions_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FormattedTimeStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -164,6 +103,63 @@ namespace huutokauppa.Migrations
                         name: "FK_AuctioneerUser_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Auctions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AuctioneerId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuctionDetails = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuctionStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FormattedAuctionStartDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuctionActive = table.Column<bool>(type: "bit", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auctions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Auctions_Auctioneers_AuctioneerId",
+                        column: x => x.AuctioneerId,
+                        principalTable: "Auctioneers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Auctions_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -251,6 +247,30 @@ namespace huutokauppa.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    IsProductOwner = table.Column<bool>(type: "bit", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AuctionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "AuctionBidders",
                 column: "Id",
@@ -271,41 +291,44 @@ namespace huutokauppa.Migrations
 
             migrationBuilder.InsertData(
                 table: "Messages",
-                columns: new[] { "Id", "Content", "FormattedTimeStamp", "ProductId", "Sender", "Timestamp" },
+                columns: new[] { "Id", "AuctionId", "Content", "IsProductOwner", "ProductId", "Sender", "Timestamp", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "I want this", null, null, "haggins", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5003) },
-                    { 2, "how much", null, null, "gayman", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5008) },
-                    { 3, "do you sell winter tires", null, null, "david", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5009) },
-                    { 4, "no more scams!", null, null, "james", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5010) },
-                    { 5, "cool cars", null, null, "kluuvi", new DateTime(2023, 10, 15, 13, 15, 17, 951, DateTimeKind.Utc).AddTicks(5011) }
+                    { 1, null, "I want this", true, 1, "haggins", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4584), 1 },
+                    { 2, null, "how much", false, 2, "haggins", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4588), 1 },
+                    { 3, null, "do you sell winter tires", true, 2, "david", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4590), 2 },
+                    { 4, null, "no more scams!", false, 1, "david", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4591), 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Image", "Name", "OwnerId", "OwnerName", "Price" },
+                columns: new[] { "Id", "Description", "Image", "Name", "OwnerId", "OwnerName", "Price", "Quantity", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg", "Product 1", 1, null, 19.99m },
-                    { 2, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80", "Product 2", 2, null, 29.99m }
+                    { 1, null, "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg", "Product 1", 1, null, 100000m, 0, null },
+                    { 2, null, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80", "Product 2", 1, null, 150000m, 0, null },
+                    { 3, null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL8kys3I1xOwZeHeL_X6ncKxXK2bDd8KtX74cWYB6n&s", "Product 3", 2, null, 200000m, 0, null },
+                    { 4, null, "https://purepng.com/public/uploads/large/purepng.com-ford-mustang-red-carcarvehicletransportford-961524665626mlrez.png", "Product 4", 2, null, 500000m, 0, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "Email", "Fname", "Lname", "Password", "Photo" },
+                columns: new[] { "Id", "Address", "Description", "Email", "Fname", "Lname", "Password", "PhoneNumber", "Photo", "Region", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, "Vaasankatu1", "john@example.com", "John", "Doe", "test123", "https://static.wikia.nocookie.net/lotr/images/e/e7/Gandalf_the_Grey.jpg/revision/latest?cb=20121110131754" },
-                    { 2, "nigstan1", "jane@example.com", "Jane", "Smith", "test", "https://static.wikia.nocookie.net/lotr/images/c/cb/Galadriel.jpg/revision/latest?cb=20151015204512" }
+                    { 1, "Vaasankatu1", null, "john@example.com", "John", "Doe", "test123", null, "https://static.wikia.nocookie.net/lotr/images/e/e7/Gandalf_the_Grey.jpg/revision/latest?cb=20121110131754", null, null },
+                    { 2, "nigstan1", null, "jane@example.com", "Jane", "Smith", "test", null, "https://static.wikia.nocookie.net/lotr/images/c/cb/Galadriel.jpg/revision/latest?cb=20151015204512", null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Auctions",
-                columns: new[] { "Id", "AuctioneerId", "ProductId" },
+                columns: new[] { "Id", "AuctionActive", "AuctionDetails", "AuctionStartDate", "AuctioneerId", "Category", "FormattedAuctionStartDate", "ProductId", "Region" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 2, 2, 2 }
+                    { 1, true, "New event 1", new DateTime(2023, 10, 17, 14, 49, 42, 676, DateTimeKind.Local).AddTicks(4514), 1, "Vechicle", null, 1, null },
+                    { 2, false, "New event 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Music", null, 2, null },
+                    { 3, true, "New event 3", new DateTime(2023, 10, 17, 14, 49, 42, 676, DateTimeKind.Local).AddTicks(4561), 2, "Vechicle", null, 3, null },
+                    { 4, false, "New event 4", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Electronic", null, 4, null }
                 });
 
             migrationBuilder.InsertData(
@@ -367,9 +390,9 @@ namespace huutokauppa.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_ProductId",
+                name: "IX_Messages_AuctionId",
                 table: "Messages",
-                column: "ProductId");
+                column: "AuctionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Photos_ProductId",
@@ -379,6 +402,11 @@ namespace huutokauppa.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Photos_UserId",
                 table: "Photos",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_UserId",
+                table: "Products",
                 column: "UserId");
         }
 
@@ -410,13 +438,13 @@ namespace huutokauppa.Migrations
                 name: "Auctions");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Auctioneers");
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

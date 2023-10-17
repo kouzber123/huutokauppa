@@ -22,6 +22,8 @@ namespace huutokauppa.Data.context
         public DbSet<Auctioneer> Auctioneers { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Message> Messages { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,12 +37,22 @@ namespace huutokauppa.Data.context
 
 );
 
+            modelBuilder.Entity<Auctioneer>().HasData(
+        new Auctioneer { Id = 1 },
+        new Auctioneer { Id = 2 }
+    // Add more Auctioneer data as needed
+    );
+            modelBuilder.Entity<Auction>().HasData(
+                new Auction { Id = 1, AuctionActive = true, AuctionDetails = "New event 1", AuctionStartDate = DateTime.Now, ProductId = 1, Category = "Vechicle", AuctioneerId = 1 },
+                new Auction { Id = 2, AuctionActive = false, AuctionDetails = "New event 2", ProductId = 2, Category = "Music", AuctioneerId = 1 },
+                new Auction { Id = 3, AuctionActive = true, AuctionDetails = "New event 3", AuctionStartDate = DateTime.Now, ProductId = 3, Category = "Vechicle", AuctioneerId = 2 },
+                new Auction { Id = 4, AuctionActive = false, AuctionDetails = "New event 4", ProductId = 4, Category = "Electronic", AuctioneerId = 2 }
+            );
             modelBuilder.Entity<Message>().HasData(
-                new Message {Id= 1, Sender= "haggins", Content="I want this"},
-                new Message {Id= 2, Sender= "gayman", Content="how much"},
-                new Message {Id= 3, Sender= "david", Content="do you sell winter tires"},
-                new Message {Id= 4, Sender= "james", Content="no more scams!"},
-                new Message {Id= 5, Sender= "kluuvi", Content="cool cars"}
+                new Message { Id = 1, Sender = "haggins", Content = "I want this", UserId = 1, IsProductOwner = true, ProductId = 1 },
+                new Message { Id = 2, Sender = "haggins", Content = "how much", UserId = 1, IsProductOwner = false, ProductId = 2 },
+                new Message { Id = 3, Sender = "david", Content = "do you sell winter tires", UserId = 2, IsProductOwner = true, ProductId = 2 },
+                new Message { Id = 4, Sender = "david", Content = "no more scams!", UserId = 2, IsProductOwner = false, ProductId = 1 }
             );
             modelBuilder.Entity<AuctionBidder>().HasData(
                 new AuctionBidder { Id = 1 },
@@ -48,15 +60,13 @@ namespace huutokauppa.Data.context
             // Add more AuctionBidder data as needed
             );
 
-            modelBuilder.Entity<Auctioneer>().HasData(
-       new Auctioneer { Id = 1 },
-       new Auctioneer { Id = 2 }
-   // Add more Auctioneer data as needed
-   );
+
 
             modelBuilder.Entity<Product>().HasData(
-             new Product { Id = 1, Name = "Product 1", Price = 19.99m, OwnerId = 1, Image = "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg" },
-             new Product { Id = 2, Name = "Product 2", Price = 29.99m, OwnerId = 2, Image = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" }
+             new Product { Id = 1, Name = "Product 1", Price = 100000, OwnerId = 1, Image = "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg" },
+             new Product { Id = 2, Name = "Product 2", Price = 150000, OwnerId = 1, Image = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" },
+             new Product { Id = 3, Name = "Product 3", Price = 200000, OwnerId = 2, Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL8kys3I1xOwZeHeL_X6ncKxXK2bDd8KtX74cWYB6n&s" },
+             new Product { Id = 4, Name = "Product 4", Price = 500000, OwnerId = 2, Image = "https://purepng.com/public/uploads/large/purepng.com-ford-mustang-red-carcarvehicletransportford-961524665626mlrez.png" }
          // Add more Product data as needed
          );
 
@@ -65,12 +75,6 @@ namespace huutokauppa.Data.context
        new Bid { Id = 2, UserId = 2, BidAmount = 150.00m }
    // Add more Bid data as needed
    );
-
-            modelBuilder.Entity<Auction>().HasData(
-              new Auction { Id = 1, AuctioneerId = 1, ProductId = 1 },
-              new Auction { Id = 2, AuctioneerId = 2, ProductId = 2 }
-          // Add more Auction data as needed
-          );
 
             modelBuilder.Entity<Photo>().HasData(
          new Photo { Id = 1, Url = "https://example.com/1", UserId = 1, ProductId = 1 },

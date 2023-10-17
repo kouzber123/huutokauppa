@@ -30,10 +30,16 @@ namespace huutokauppa.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AuctionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<bool>("IsProductOwner")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("Sender")
@@ -42,9 +48,12 @@ namespace huutokauppa.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("AuctionId");
 
                     b.ToTable("Messages");
 
@@ -53,36 +62,41 @@ namespace huutokauppa.Migrations
                         {
                             Id = 1,
                             Content = "I want this",
+                            IsProductOwner = true,
+                            ProductId = 1,
                             Sender = "haggins",
-                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8344)
+                            Timestamp = new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4584),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Content = "how much",
-                            Sender = "gayman",
-                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8347)
+                            IsProductOwner = false,
+                            ProductId = 2,
+                            Sender = "haggins",
+                            Timestamp = new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4588),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 3,
                             Content = "do you sell winter tires",
+                            IsProductOwner = true,
+                            ProductId = 2,
                             Sender = "david",
-                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8349)
+                            Timestamp = new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4590),
+                            UserId = 2
                         },
                         new
                         {
                             Id = 4,
                             Content = "no more scams!",
-                            Sender = "james",
-                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8350)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Content = "cool cars",
-                            Sender = "kluuvi",
-                            Timestamp = new DateTime(2023, 10, 15, 17, 19, 51, 287, DateTimeKind.Utc).AddTicks(8352)
+                            IsProductOwner = false,
+                            ProductId = 1,
+                            Sender = "david",
+                            Timestamp = new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4591),
+                            UserId = 2
                         });
                 });
 
@@ -139,11 +153,29 @@ namespace huutokauppa.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("AuctionActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("AuctionDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("AuctionStartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("AuctioneerId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FormattedAuctionStartDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -157,14 +189,42 @@ namespace huutokauppa.Migrations
                         new
                         {
                             Id = 1,
+                            AuctionActive = true,
+                            AuctionDetails = "New event 1",
+                            AuctionStartDate = new DateTime(2023, 10, 17, 14, 49, 42, 676, DateTimeKind.Local).AddTicks(4514),
                             AuctioneerId = 1,
+                            Category = "Vechicle",
                             ProductId = 1
                         },
                         new
                         {
                             Id = 2,
-                            AuctioneerId = 2,
+                            AuctionActive = false,
+                            AuctionDetails = "New event 2",
+                            AuctionStartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AuctioneerId = 1,
+                            Category = "Music",
                             ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AuctionActive = true,
+                            AuctionDetails = "New event 3",
+                            AuctionStartDate = new DateTime(2023, 10, 17, 14, 49, 42, 676, DateTimeKind.Local).AddTicks(4561),
+                            AuctioneerId = 2,
+                            Category = "Vechicle",
+                            ProductId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AuctionActive = false,
+                            AuctionDetails = "New event 4",
+                            AuctionStartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AuctioneerId = 2,
+                            Category = "Electronic",
+                            ProductId = 4
                         });
                 });
 
@@ -309,6 +369,9 @@ namespace huutokauppa.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -324,7 +387,15 @@ namespace huutokauppa.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
 
@@ -335,15 +406,35 @@ namespace huutokauppa.Migrations
                             Image = "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg",
                             Name = "Product 1",
                             OwnerId = 1,
-                            Price = 19.99m
+                            Price = 100000m,
+                            Quantity = 0
                         },
                         new
                         {
                             Id = 2,
                             Image = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
                             Name = "Product 2",
+                            OwnerId = 1,
+                            Price = 150000m,
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL8kys3I1xOwZeHeL_X6ncKxXK2bDd8KtX74cWYB6n&s",
+                            Name = "Product 3",
                             OwnerId = 2,
-                            Price = 29.99m
+                            Price = 200000m,
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Image = "https://purepng.com/public/uploads/large/purepng.com-ford-mustang-red-carcarvehicletransportford-961524665626mlrez.png",
+                            Name = "Product 4",
+                            OwnerId = 2,
+                            Price = 500000m,
+                            Quantity = 0
                         });
                 });
 
@@ -358,6 +449,9 @@ namespace huutokauppa.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -370,7 +464,16 @@ namespace huutokauppa.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -402,9 +505,9 @@ namespace huutokauppa.Migrations
 
             modelBuilder.Entity("Api.Data.Models.Message", b =>
                 {
-                    b.HasOne("huutokauppa.Data.Models.Product", null)
+                    b.HasOne("huutokauppa.Data.Models.Auction", null)
                         .WithMany("Messages")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("AuctionId");
                 });
 
             modelBuilder.Entity("AuctionAuctionBidder", b =>
@@ -454,7 +557,7 @@ namespace huutokauppa.Migrations
 
             modelBuilder.Entity("huutokauppa.Data.Models.Auction", b =>
                 {
-                    b.HasOne("huutokauppa.Data.Models.Auctioneer", "Auctioneer")
+                    b.HasOne("huutokauppa.Data.Models.Auctioneer", null)
                         .WithMany("Auctions")
                         .HasForeignKey("AuctioneerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -465,8 +568,6 @@ namespace huutokauppa.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Auctioneer");
 
                     b.Navigation("Product");
                 });
@@ -493,7 +594,7 @@ namespace huutokauppa.Migrations
             modelBuilder.Entity("huutokauppa.Data.Models.Photo", b =>
                 {
                     b.HasOne("huutokauppa.Data.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Photos")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -509,9 +610,18 @@ namespace huutokauppa.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("huutokauppa.Data.Models.Product", b =>
+                {
+                    b.HasOne("huutokauppa.Data.Models.User", null)
+                        .WithMany("BuyHistory")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("huutokauppa.Data.Models.Auction", b =>
                 {
                     b.Navigation("Bids");
+
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("huutokauppa.Data.Models.AuctionBidder", b =>
@@ -526,7 +636,12 @@ namespace huutokauppa.Migrations
 
             modelBuilder.Entity("huutokauppa.Data.Models.Product", b =>
                 {
-                    b.Navigation("Messages");
+                    b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("huutokauppa.Data.Models.User", b =>
+                {
+                    b.Navigation("BuyHistory");
                 });
 #pragma warning restore 612, 618
         }

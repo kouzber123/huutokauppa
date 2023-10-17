@@ -8,7 +8,7 @@ namespace huutokauppa.Data.Models
     public class Auctioneer
     {
         //everyu auction can have one item and owner but multiple bidders
-        public int Id { get; set; }
+        public int Id { get; set; } 
 
         public List<User> User { get; set; }
 

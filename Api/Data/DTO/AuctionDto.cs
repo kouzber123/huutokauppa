@@ -2,29 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using huutokauppa.Data.Models;
 
 namespace huutokauppa.Data.DTO
 {
     public class AuctionDto
     {
-        public int Id { get; set; }
-
         public int AuctioneerId { get; set; }
-        public AuctioneerDto Auctioneer { get; set; }
-
-
         public int ProductId { get; set; }
-        public ProductDto Product { get; set; }
-
-        //all bids
-        public List<BidDto> Bids { get; set; } = new List<BidDto>();
-        public List<AuctionBidderDto> AuctionBidders { get; set; } = new List<AuctionBidderDto>();
-
-
-        public void AddBid(BidDto bid, AuctionBidderDto auctionBidder)
-        {
-            Bids.Add(bid);
-            AuctionBidders.Add(auctionBidder);
-        }
+        public Product Product { get; set; }
+        public string Region { get; set; }
+        public string AuctionDetails { get; set; }
+        public DateTime AuctionStartDate { get; set; }
+        public string FormattedAuctionStartDate { get; set; }
+        public bool AuctionActive { get; set; } = false;
+        public string Category { get; set; }
     }
 }
