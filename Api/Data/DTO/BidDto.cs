@@ -10,7 +10,7 @@ namespace huutokauppa.Data.DTO
         public int Id { get; set; }
 
         public int UserId { get; set; }
-        public UserDto User { get; set; }
+        public string User { get; set; }
         public decimal BidAmount { get; set; }
     }
 }

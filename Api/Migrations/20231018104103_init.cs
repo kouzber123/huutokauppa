@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace huutokauppa.Migrations
 {
     /// <inheritdoc />
-    public partial class newlist : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -120,6 +120,7 @@ namespace huutokauppa.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OwnerId = table.Column<int>(type: "int", nullable: false),
                     OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -171,8 +172,8 @@ namespace huutokauppa.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ReferenceId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,14 +182,7 @@ namespace huutokauppa.Migrations
                         name: "FK_Photos_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Photos_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -294,21 +288,30 @@ namespace huutokauppa.Migrations
                 columns: new[] { "Id", "AuctionId", "Content", "IsProductOwner", "ProductId", "Sender", "Timestamp", "UserId" },
                 values: new object[,]
                 {
-                    { 1, null, "I want this", true, 1, "haggins", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4584), 1 },
-                    { 2, null, "how much", false, 2, "haggins", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4588), 1 },
-                    { 3, null, "do you sell winter tires", true, 2, "david", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4590), 2 },
-                    { 4, null, "no more scams!", false, 1, "david", new DateTime(2023, 10, 17, 11, 49, 42, 676, DateTimeKind.Utc).AddTicks(4591), 2 }
+                    { 1, null, "I want this", true, 1, "haggins", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7047), 1 },
+                    { 2, null, "how much", false, 2, "haggins", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7050), 1 },
+                    { 3, null, "do you sell winter tires", true, 2, "david", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7051), 2 },
+                    { 4, null, "no more scams!", false, 1, "david", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7053), 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Photos",
+                columns: new[] { "Id", "ProductId", "ReferenceId", "Url" },
+                values: new object[,]
+                {
+                    { 1, null, 1, "https://example.com/1" },
+                    { 2, null, 2, "https://example.com/2" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "Image", "Name", "OwnerId", "OwnerName", "Price", "Quantity", "UserId" },
+                columns: new[] { "Id", "CreatedAt", "Description", "Image", "Name", "OwnerId", "OwnerName", "Price", "Quantity", "UserId" },
                 values: new object[,]
                 {
-                    { 1, null, "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg", "Product 1", 1, null, 100000m, 0, null },
-                    { 2, null, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80", "Product 2", 1, null, 150000m, 0, null },
-                    { 3, null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL8kys3I1xOwZeHeL_X6ncKxXK2bDd8KtX74cWYB6n&s", "Product 3", 2, null, 200000m, 0, null },
-                    { 4, null, "https://purepng.com/public/uploads/large/purepng.com-ford-mustang-red-carcarvehicletransportford-961524665626mlrez.png", "Product 4", 2, null, 500000m, 0, null }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "https://www.vehiclehistory.com/uploads/2009-BMW-3-Series.jpg", "Product 1", 1, null, 100000m, 0, null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80", "Product 2", 1, null, 150000m, 0, null },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL8kys3I1xOwZeHeL_X6ncKxXK2bDd8KtX74cWYB6n&s", "Product 3", 2, null, 200000m, 0, null },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "https://purepng.com/public/uploads/large/purepng.com-ford-mustang-red-carcarvehicletransportford-961524665626mlrez.png", "Product 4", 2, null, 500000m, 0, null }
                 });
 
             migrationBuilder.InsertData(
@@ -325,9 +328,9 @@ namespace huutokauppa.Migrations
                 columns: new[] { "Id", "AuctionActive", "AuctionDetails", "AuctionStartDate", "AuctioneerId", "Category", "FormattedAuctionStartDate", "ProductId", "Region" },
                 values: new object[,]
                 {
-                    { 1, true, "New event 1", new DateTime(2023, 10, 17, 14, 49, 42, 676, DateTimeKind.Local).AddTicks(4514), 1, "Vechicle", null, 1, null },
+                    { 1, true, "New event 1", new DateTime(2023, 10, 18, 13, 41, 3, 178, DateTimeKind.Local).AddTicks(6962), 1, "Vechicle", null, 1, null },
                     { 2, false, "New event 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Music", null, 2, null },
-                    { 3, true, "New event 3", new DateTime(2023, 10, 17, 14, 49, 42, 676, DateTimeKind.Local).AddTicks(4561), 2, "Vechicle", null, 3, null },
+                    { 3, true, "New event 3", new DateTime(2023, 10, 18, 13, 41, 3, 178, DateTimeKind.Local).AddTicks(7027), 2, "Vechicle", null, 3, null },
                     { 4, false, "New event 4", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Electronic", null, 4, null }
                 });
 
@@ -338,15 +341,6 @@ namespace huutokauppa.Migrations
                 {
                     { 1, null, null, 100.00m, 1 },
                     { 2, null, null, 150.00m, 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Photos",
-                columns: new[] { "Id", "ProductId", "Url", "UserId" },
-                values: new object[,]
-                {
-                    { 1, 1, "https://example.com/1", 1 },
-                    { 2, 2, "https://example.com/2", 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -398,11 +392,6 @@ namespace huutokauppa.Migrations
                 name: "IX_Photos_ProductId",
                 table: "Photos",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Photos_UserId",
-                table: "Photos",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_UserId",

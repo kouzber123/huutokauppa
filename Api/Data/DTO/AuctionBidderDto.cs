@@ -12,16 +12,13 @@ namespace huutokauppa.Data.DTO
         public List<UserDto> User { get; set; }
 
         public List<BidDto> MyBids { get; set; } = new List<BidDto>();
-        public List<AuctionDto> Auctions { get; set; } = new List<AuctionDto>();
+
 
         //personal bids
         public void AddBid(BidDto bid)
         {
             MyBids.Add(bid);
         }
-        public void AddAuction(AuctionDto auction)
-        {
-            Auctions.Add(auction);
-        }
+    
     }
 }

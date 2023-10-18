@@ -78,3 +78,4 @@ C:\Users\tomng\huutokauppa\api\obj\Debug\net7.0\huutokauppa.genruntimeconfig.cac
 C:\Users\tomng\huutokauppa\api\obj\Debug\net7.0\ref\huutokauppa.dll
 C:\Users\tomng\huutokauppa\Api\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\tomng\huutokauppa\Api\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\tomng\huutokauppa\Api\bin\Debug\net7.0\Data\_SeedData\Seed.json

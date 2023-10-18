@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Data.DTO;
 using huutokauppa.Data.DTO;
 using huutokauppa.Data.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace huutokauppa.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDto>> GetProductById(int id)
+        public async Task<ActionResult<FullAuctionDto>> GetProductById(int id)
         {
 
             return await _product.GetProductAsync(id);
@@ -36,7 +37,7 @@ namespace huutokauppa.Controllers
 
         [HttpPost("create-auction")]
 
-        public async Task<ActionResult<CreateProductDto>> CreateProduct([FromBody] CreateProductDto createProduct)
+        public async Task<ActionResult<CreateProductDto>> CreateProduct([FromBody] ProductDto createProduct)
         {
 
             return await _product.CreateProductAsync(createProduct);

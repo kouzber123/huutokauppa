@@ -1,0 +1,272 @@
+[
+  {
+    "name": "Cozy Family Home",
+    "price": 250000,
+    "image": "https://example.com/house-image.jpg",
+    "description": "A beautiful and spacious family home in a quiet neighborhood.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/house-photo1.jpg",
+        "referenceId": 1
+      },
+      {
+        "id": 2,
+        "url": "https://example.com/house-photo2.jpg",
+        "referenceId": 1
+      }
+    ],
+    "ownerId": 123,
+    "ownerName": "John Smith",
+    "auctioneerId": 456,
+    "region": "Suburban",
+    "auctionDetails": "Open house viewing on October 25th, 2023.",
+    "auctionStartDate": "2023-10-25T10:00:00.000Z",
+    "formattedAuctionStartDate": "October 25, 2023, 10:00 AM",
+    "auctionActive": true,
+    "category": "Real Estate"
+  },
+  {
+    "name": "Vintage Collector's Item",
+    "price": 5000,
+    "image": "https://example.com/product1-image.jpg",
+    "description": "A rare and vintage collector's item in pristine condition.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product1-photo1.jpg",
+        "referenceId": 1
+      }
+    ],
+    "ownerId": 101,
+    "ownerName": "Alice Johnson",
+    "auctioneerId": 201,
+    "region": "Antiques",
+    "auctionDetails": "Bid on this unique collector's item at our auction event.",
+    "auctionStartDate": "2023-10-30T15:00:00.000Z",
+    "formattedAuctionStartDate": "October 30, 2023, 3:00 PM",
+    "auctionActive": true,
+    "category": "Collectibles"
+  },
+
+  {
+    "name": "High-End Electronics Bundle",
+    "price": 3000,
+    "image": "https://example.com/product2-image.jpg",
+    "description": "A bundle of high-end electronics including a laptop, smartphone, and more.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product2-photo1.jpg",
+        "referenceId": 2
+      },
+      {
+        "id": 2,
+        "url": "https://example.com/product2-photo2.jpg",
+        "referenceId": 2
+      }
+    ],
+    "ownerId": 102,
+    "ownerName": "David Miller",
+    "auctioneerId": 202,
+    "region": "Electronics",
+    "auctionDetails": "Join our electronics auction for a chance to own this bundle.",
+    "auctionStartDate": "2023-11-05T18:30:00.000Z",
+    "formattedAuctionStartDate": "November 5, 2023, 6:30 PM",
+    "auctionActive": true,
+    "category": "Electronics"
+  },
+  {
+    "name": "Handcrafted Artwork",
+    "price": 800,
+    "image": "https://example.com/product3-image.jpg",
+    "description": "A beautiful handcrafted artwork by a talented artist.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product3-photo1.jpg",
+        "referenceId": 3
+      }
+    ],
+    "ownerId": 103,
+    "ownerName": "Sophia Lee",
+    "auctioneerId": 203,
+    "region": "Art",
+    "auctionDetails": "Don't miss your chance to own this unique piece of art.",
+    "auctionStartDate": "2023-11-10T14:00:00.000Z",
+    "formattedAuctionStartDate": "November 10, 2023, 2:00 PM",
+    "auctionActive": true,
+    "category": "Art"
+  },
+
+  {
+    "name": "Luxury Watch Collection",
+    "price": 12000,
+    "image": "https://example.com/product4-image.jpg",
+    "description": "A collection of luxury watches from renowned brands.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product4-photo1.jpg",
+        "referenceId": 4
+      },
+      {
+        "id": 2,
+        "url": "https://example.com/product4-photo2.jpg",
+        "referenceId": 4
+      }
+    ],
+    "ownerId": 104,
+    "ownerName": "Michael Davis",
+    "auctioneerId": 204,
+    "region": "Luxury",
+    "auctionDetails": "Bid on these exquisite luxury timepieces at our auction.",
+    "auctionStartDate": "2023-11-15T17:30:00.000Z",
+    "formattedAuctionStartDate": "November 15, 2023, 5:30 PM",
+    "auctionActive": true,
+    "category": "Watches"
+  },
+  {
+    "name": "Vintage Classic Car",
+    "price": 60000,
+    "image": "https://example.com/product5-image.jpg",
+    "description": "A well-preserved vintage classic car from the 1960s.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product5-photo1.jpg",
+        "referenceId": 5
+      }
+    ],
+    "ownerId": 105,
+    "ownerName": "Emily White",
+    "auctioneerId": 205,
+    "region": "Automobiles",
+    "auctionDetails": "Rare opportunity to own a piece of automotive history.",
+    "auctionStartDate": "2023-11-20T13:45:00.000Z",
+    "formattedAuctionStartDate": "November 20, 2023, 1:45 PM",
+    "auctionActive": true,
+    "category": "Automobiles"
+  },
+  {
+    "name": "Antique Furniture Set",
+    "price": 3500,
+    "image": "https://example.com/product6-image.jpg",
+    "description": "A complete set of antique furniture in excellent condition.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product6-photo1.jpg",
+        "referenceId": 6
+      }
+    ],
+    "ownerId": 106,
+    "ownerName": "Oliver Brown",
+    "auctioneerId": 206,
+    "region": "Antiques",
+    "auctionDetails": "Join our antique furniture auction to acquire these timeless pieces.",
+    "auctionStartDate": "2023-11-25T16:15:00.000Z",
+    "formattedAuctionStartDate": "November 25, 2023, 4:15 PM",
+    "auctionActive": true,
+    "category": "Furniture"
+  },
+  {
+    "name": "Rare Coin Collection",
+    "price": 1500,
+    "image": "https://example.com/product7-image.jpg",
+    "description": "A collection of rare and valuable coins from various eras.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product7-photo1.jpg",
+        "referenceId": 7
+      }
+    ],
+    "ownerId": 107,
+    "ownerName": "Sophie Adams",
+    "auctioneerId": 207,
+    "region": "Collectibles",
+    "auctionDetails": "Explore the world of rare coins at our coin collection auction.",
+    "auctionStartDate": "2023-12-01T11:30:00.000Z",
+    "formattedAuctionStartDate": "December 1, 2023, 11:30 AM",
+    "auctionActive": true,
+    "category": "Coins"
+  },
+  {
+    "name": "Designer Clothing Lot",
+    "price": 900,
+    "image": "https://example.com/product8-image.jpg",
+    "description": "A lot of designer clothing items from top fashion brands.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product8-photo1.jpg",
+        "referenceId": 8
+      }
+    ],
+    "ownerId": 108,
+    "ownerName": "Liam Hall",
+    "auctioneerId": 208,
+    "region": "Fashion",
+    "auctionDetails": "Bid on this stylish designer clothing lot at our fashion auction.",
+    "auctionStartDate": "2023-12-06T14:00:00.000Z",
+    "formattedAuctionStartDate": "December 6, 2023, 2:00 PM",
+    "auctionActive": true,
+    "category": "Clothing"
+  },
+  {
+    "name": "Rare Stamp Collection",
+    "price": 1000,
+    "image": "https://example.com/product9-image.jpg",
+    "description": "A collection of rare and valuable postage stamps from around the world.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product9-photo1.jpg",
+        "referenceId": 9
+      }
+    ],
+    "ownerId": 109,
+    "ownerName": "Noah Turner",
+    "auctioneerId": 209,
+    "region": "Collectibles",
+    "auctionDetails": "Discover the world of rare stamps at our stamp collection auction.",
+    "auctionStartDate": "2023-12-11T10:30:00.000Z",
+    "formattedAuctionStartDate": "December 11, 2023, 10:30 AM",
+    "auctionActive": true,
+    "category": "Stamps"
+  },
+  {
+    "name": "Vintage Vinyl Records",
+    "price": 600,
+    "image": "https://example.com/product10-image.jpg",
+    "description": "A collection of vintage vinyl records with classic music albums.",
+    "quantity": 1,
+    "photos": [
+      {
+        "id": 1,
+        "url": "https://example.com/product10-photo1.jpg",
+        "referenceId": 10
+      }
+    ],
+    "ownerId": 110,
+    "ownerName": "Mia Carter",
+    "auctioneerId": 210,
+    "region": "Music",
+    "auctionDetails": "Bid on these nostalgic vinyl records at our music auction.",
+    "auctionStartDate": "2023-12-16T15:45:00.000Z",
+    "formattedAuctionStartDate": "December 16, 2023, 3:45 PM",
+    "auctionActive": true,
+    "category": "Music"
+  }
+]

@@ -10,12 +10,13 @@ namespace huutokauppa.Data.DTO
     {
         public int AuctioneerId { get; set; }
         public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public ProductDto Product { get; set; }
         public string Region { get; set; }
         public string AuctionDetails { get; set; }
         public DateTime AuctionStartDate { get; set; }
         public string FormattedAuctionStartDate { get; set; }
         public bool AuctionActive { get; set; } = false;
         public string Category { get; set; }
+        public string HostName { get; set; }
     }
 }

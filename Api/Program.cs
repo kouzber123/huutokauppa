@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<IMessage, MessageRepository>();
+builder.Services.AddScoped<IAuction, AuctionRepository>();
 
 builder.Services.AddDbContext<Datacontext>(option =>
 {

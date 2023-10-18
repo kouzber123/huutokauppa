@@ -11,10 +11,7 @@ namespace huutokauppa.Data.DTO
 
         public string Url { get; set; }
 
-        public int UserId { get; set; }
-        public UserDto User { get; set; }
+        public int ReferenceId { get; set; }
 
-        public int ProductId { get; set; }
-        public ProductDto Product { get; set; }
     }
 }

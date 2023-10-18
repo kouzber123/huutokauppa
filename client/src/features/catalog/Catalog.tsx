@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { Product } from "../../app/models/product";
+
 import ProductList from "./ProductList";
+import { auction } from "../../app/models/auction";
 
 export default function Catalog() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [auctions, setAuctions] = useState<auction[]>([]);
   useEffect(() => {
-    fetch("http://localhost:5009/api/Product/List")
+    fetch("http://localhost:5009/api/Auction")
       .then(res => res.json())
-      .then(data => setProducts(data));
+      .then(data => setAuctions(data));
+
+    console.log(auctions)
   }, []);
-  return <ProductList products={products} />;
+  return <ProductList auction={auctions} />;
 }

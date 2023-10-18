@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace huutokauppa.Data.Models
+namespace Api.Data.DTO
 {
-    public class Photo
+    public class AuctionParticipantDto
     {
         public int Id { get; set; }
-
-        public string Url { get; set; }
-
-        public int ReferenceId{ get; set; }
+        public string User { get; set; }
 
     }
 }

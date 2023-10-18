@@ -77,8 +77,8 @@ namespace huutokauppa.Data.context
    );
 
             modelBuilder.Entity<Photo>().HasData(
-         new Photo { Id = 1, Url = "https://example.com/1", UserId = 1, ProductId = 1 },
-         new Photo { Id = 2, Url = "https://example.com/2", UserId = 2, ProductId = 2 }
+         new Photo { Id = 1, Url = "https://example.com/1", ReferenceId = 1 },
+         new Photo { Id = 2, Url = "https://example.com/2", ReferenceId = 2 }
      // Add more instances of YourEntity as needed
      );
 
