@@ -75,6 +75,15 @@ namespace Api.Data.Repositories
             return new OkResult();
         }
 
+        public async Task<ActionResult<FullAuctionDto>> GetAuctionByIdAsync(int id)
+        {
+            var auction = await _product.GetProductByIdAsync(id);
+            if (auction is null) return new NotFoundObjectResult("No auction found by given id");
+            return auction;
+
+
+        }
+
         public async Task<ActionResult<List<AuctionProductDto>>> GetAuctionListAsync()
         {
             var list = await _datacontext.Auctions

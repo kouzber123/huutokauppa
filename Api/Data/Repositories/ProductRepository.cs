@@ -4,7 +4,9 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Data.DTO;
+using Api.Data.Helpers;
 using Api.Data.Models;
+using Api.Data.Repositories.Interface;
 using huutokauppa.Data.context;
 using huutokauppa.Data.DTO;
 using huutokauppa.Data.Models;
@@ -17,13 +19,20 @@ namespace huutokauppa.Data.Repositories
     public class ProductRepository : IProduct
     {
         private readonly Datacontext _datacontext;
-        public ProductRepository(Datacontext datacontext)
+
+        private readonly IModelChanger _modelChanger;
+
+        public ProductRepository(Datacontext datacontext, IModelChanger modelChanger)
         {
+            _modelChanger = modelChanger;
+
+
             _datacontext = datacontext;
         }
 
         public async Task<ActionResult<CreateProductDto>> CreateProductAsync(ProductDto product)
         {
+
             var ownerId = await _datacontext.Users.FirstOrDefaultAsync(x => x.Id == product.OwnerId);
 
             if (ownerId is null) return null;
@@ -65,12 +74,14 @@ namespace huutokauppa.Data.Repositories
             return userProduct;
         }
 
-        public async Task<ActionResult<FullAuctionDto>> GetProductAsync(int id)
+        public async Task<ActionResult<FullAuctionDto>> GetProductByIdAsync(int id)
         {
+            // Create an instance of ModelChanger and pass the Datacontext to it
+
             var auctionProduct = await _datacontext.Auctions
             .Include(b => b.Bids)
-            .Include(a => a.AuctionParticipants)
             .Include(m => m.Messages)
+            .Include(p => p.Participates)
             .Include(p => p.Product)
             .ThenInclude(c => c.Photos)
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -78,69 +89,27 @@ namespace huutokauppa.Data.Repositories
             if (auctionProduct is null) return new NotFoundResult();
 
             var photos = new List<PhotoDto>();
-
-            foreach (var photo in auctionProduct.Product.Photos)
-            {
-                var photoDto = new PhotoDto
-                {
-                    Id = photo.Id,
-                    ReferenceId = photo.ReferenceId,
-                    Url = photo.Url
-                };
-                photos.Add(photoDto);
-            }
-            var product = new ProductDto
-            {
-                Id = auctionProduct.Product.Id,
-                Name = auctionProduct.Product.Name,
-                Price = auctionProduct.Product.Price,
-                Image = auctionProduct.Product.Image,
-                Description = auctionProduct.Product.Description,
-                Quantity = auctionProduct.Product.Quantity,
-                Photos = photos,
-                OwnerId = auctionProduct.Product.OwnerId,
-                OwnerName = auctionProduct.Product.OwnerName
-            };
-
             var messages = new List<MessageDto>();
-            foreach (var Message in auctionProduct.Messages)
-            {
-                var messageDto = new MessageDto
-                {
-                    Sender = Message.Sender,
-                    Content = Message.Content,
-                    Timestamp = Message.Timestamp
-
-                };
-                messages.Add(messageDto);
-            }
             var bids = new List<BidDto>();
-            foreach (var bid in auctionProduct.Bids)
-            {
-                var bidDto = new BidDto
-                {
-                    Id = bid.Id,
-                    UserId = bid.UserId,
-                    User = bid.User,
-                    BidAmount = bid.BidAmount
+            var product = _modelChanger.GetProductDto(auctionProduct.Product);
+            messages = _modelChanger.GetMessageListDto(auctionProduct.Messages);
+            bids = _modelChanger.GetBidListDto(auctionProduct.Bids);
 
-                };
-                bids.Add(bidDto);
-            }
-            var participants = new List<AuctionParticipantDto>();
-            foreach (var participant in auctionProduct.AuctionParticipants)
+            var participate = new List<ParticipateAuctionDto>();
+            foreach (var participant in auctionProduct.Participates)
             {
-                var user = new AuctionParticipantDto
+                var participants = new ParticipateAuctionDto
                 {
                     Id = participant.Id,
-                    User = $"{participant.User.Select(x => x.Fname).ToString()} {participant.User.Select(x => x.Lname).ToString()} ",
+                    UserId = participant.UserId,
+                    User = participant.User.Fname,
+                    AuctionId = participant.AuctionId
 
                 };
-                participants.Add(user);
-
             }
             var foundItem = new FullAuctionDto
             {
+                Id = auctionProduct.Id,
                 AuctioneerId = auctionProduct.AuctioneerId,
                 AuctionActive = auctionProduct.AuctionActive,
                 AuctionDetails = auctionProduct.AuctionDetails,
@@ -151,11 +120,9 @@ namespace huutokauppa.Data.Repositories
                 Product = product,
                 HostName = product.OwnerName,
                 ProductId = product.Id,
-                Messages = messages,
                 Bids = bids,
-                AuctionParticipants = participants,
+                Messages = messages
             };
-
             return new OkObjectResult(foundItem);
         }
 

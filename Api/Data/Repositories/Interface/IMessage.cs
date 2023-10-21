@@ -13,5 +13,10 @@ namespace Api.Data.Repositories.Interface
         Task<ActionResult<Message>> SaveMessageAsync(Message message);
 
         Task<ActionResult<List<MessageDto>>> GetMessageListAsync();
-    }
+
+        //create message
+        //check if owner
+        Task<ActionResult> CreateMessageAsync(int auctionId, MessageDto messageDto);
+
+}
 }

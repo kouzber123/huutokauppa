@@ -8,6 +8,7 @@ namespace Api.Data.DTO
 {
     public class FullAuctionDto
     {
+        public int Id { get; set; }
         public int AuctioneerId { get; set; }
         public int ProductId { get; set; }
         public ProductDto Product { get; set; }
@@ -18,14 +19,9 @@ namespace Api.Data.DTO
         public bool AuctionActive { get; set; } = false;
         public string Category { get; set; }
         public string HostName { get; set; }
-        public List<AuctionParticipantDto> AuctionParticipants { get; set; } = new List<AuctionParticipantDto>();
+        public List<ParticipateAuctionDto> ParticipateAuctions { get; set; } = new List<ParticipateAuctionDto>();
         public List<MessageDto> Messages { get; set; } = new List<MessageDto>();
 
         public List<BidDto> Bids { get; set; } = new List<BidDto>();
-        public void AddBid(BidDto bid, AuctionParticipantDto auctionParticipant)
-        {
-            Bids.Add(bid);
-            AuctionParticipants.Add(auctionParticipant);
-        }
     }
 }

@@ -1,5 +1,6 @@
 
 using Api.Data.Chat;
+using Api.Data.Helpers;
 using Api.Data.Repositories;
 using Api.Data.Repositories.Interface;
 using huutokauppa.Data.context;
@@ -20,7 +21,9 @@ builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<IMessage, MessageRepository>();
 builder.Services.AddScoped<IAuction, AuctionRepository>();
-
+builder.Services.AddScoped<IBid, BidRepository>();
+builder.Services.AddScoped<IParticipate, ParticipateAuctionRepository>();
+builder.Services.AddScoped<IModelChanger, ModelChanger>();
 builder.Services.AddDbContext<Datacontext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

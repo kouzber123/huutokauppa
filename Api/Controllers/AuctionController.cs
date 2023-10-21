@@ -23,6 +23,14 @@ namespace Api.Controllers
             return await _auction.GetAuctionListAsync();
         }
 
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult<FullAuctionDto>> GetAuctionById(int id)
+        {
+
+            return await _auction.GetAuctionByIdAsync(id);
+        }
+
         [HttpPost("createAuction")]
 
         public async Task<ActionResult> CreateAuction(int userId, AuctionProductDto auctionProductDto)

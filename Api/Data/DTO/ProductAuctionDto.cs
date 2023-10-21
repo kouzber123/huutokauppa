@@ -19,19 +19,14 @@ namespace Api.Data.DTO
         public string AuctionDetails { get; set; }
         //all bids
         public List<Bid> Bids { get; set; } = new List<Bid>();
-        public List<AuctionBidder> AuctionBidders { get; set; } = new List<AuctionBidder>();
+
         public DateTime AuctionStartDate { get; set; }
         public string FormattedAuctionStartDate { get; set; }
         public List<Message> Messages { get; set; } = new List<Message>();
         public bool AuctionActive { get; set; } = false;
         public string Category { get; set; }
         public string HostName { get; set; }
-        public void AddBid(Bid bid, AuctionBidder auctionBidder)
-        {
-            Bids.Add(bid);
-            AuctionBidders.Add(auctionBidder);
-        }
-
+   
 
     }
 }

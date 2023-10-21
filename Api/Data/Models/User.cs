@@ -20,8 +20,6 @@ namespace huutokauppa.Data.Models
         public string Photo { get; set; }
         public string Description { get; set; }
 
-        public List<AuctionBidder> AuctionBidders { get; set; } = new List<AuctionBidder>();
-
         public List<Auctioneer> Auctioneers { get; set; } = new List<Auctioneer>();
 
         public List<Product> BuyHistory { get; set; } = new List<Product>();

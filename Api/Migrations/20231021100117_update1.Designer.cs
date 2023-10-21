@@ -12,8 +12,8 @@ using huutokauppa.Data.context;
 namespace huutokauppa.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20231018105301_init2")]
-    partial class init2
+    [Migration("20231021100117_update1")]
+    partial class update1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,16 +33,16 @@ namespace huutokauppa.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AuctionId")
+                    b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsProductOwner")
+                    b.Property<bool>("IsAuctionOwner")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ParticipateId")
                         .HasColumnType("int");
 
                     b.Property<string>("Sender")
@@ -58,79 +58,74 @@ namespace huutokauppa.Migrations
 
                     b.HasIndex("AuctionId");
 
+                    b.HasIndex("ParticipateId");
+
                     b.ToTable("Messages");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            AuctionId = 1,
                             Content = "I want this",
-                            IsProductOwner = true,
-                            ProductId = 1,
+                            IsAuctionOwner = true,
                             Sender = "haggins",
-                            Timestamp = new DateTime(2023, 10, 18, 10, 53, 1, 45, DateTimeKind.Utc).AddTicks(4276),
+                            Timestamp = new DateTime(2023, 10, 21, 10, 1, 16, 833, DateTimeKind.Utc).AddTicks(3355),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
+                            AuctionId = 2,
                             Content = "how much",
-                            IsProductOwner = false,
-                            ProductId = 2,
+                            IsAuctionOwner = false,
                             Sender = "haggins",
-                            Timestamp = new DateTime(2023, 10, 18, 10, 53, 1, 45, DateTimeKind.Utc).AddTicks(4279),
+                            Timestamp = new DateTime(2023, 10, 21, 10, 1, 16, 833, DateTimeKind.Utc).AddTicks(3359),
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
+                            AuctionId = 2,
                             Content = "do you sell winter tires",
-                            IsProductOwner = true,
-                            ProductId = 2,
+                            IsAuctionOwner = true,
                             Sender = "david",
-                            Timestamp = new DateTime(2023, 10, 18, 10, 53, 1, 45, DateTimeKind.Utc).AddTicks(4281),
+                            Timestamp = new DateTime(2023, 10, 21, 10, 1, 16, 833, DateTimeKind.Utc).AddTicks(3361),
                             UserId = 2
                         },
                         new
                         {
                             Id = 4,
+                            AuctionId = 1,
                             Content = "no more scams!",
-                            IsProductOwner = false,
-                            ProductId = 1,
+                            IsAuctionOwner = false,
                             Sender = "david",
-                            Timestamp = new DateTime(2023, 10, 18, 10, 53, 1, 45, DateTimeKind.Utc).AddTicks(4282),
+                            Timestamp = new DateTime(2023, 10, 21, 10, 1, 16, 833, DateTimeKind.Utc).AddTicks(3362),
                             UserId = 2
                         });
                 });
 
-            modelBuilder.Entity("AuctionAuctionBidder", b =>
+            modelBuilder.Entity("Api.Data.Models.Participate", b =>
                 {
-                    b.Property<int>("AuctionBiddersId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AuctionsId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasKey("AuctionBiddersId", "AuctionsId");
-
-                    b.HasIndex("AuctionsId");
-
-                    b.ToTable("AuctionAuctionBidder");
-                });
-
-            modelBuilder.Entity("AuctionBidderUser", b =>
-                {
-                    b.Property<int>("AuctionBiddersId")
+                    b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("AuctionBiddersId", "UserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AuctionBidderUser");
+                    b.ToTable("Participates");
                 });
 
             modelBuilder.Entity("AuctioneerUser", b =>
@@ -197,7 +192,7 @@ namespace huutokauppa.Migrations
                             Id = 1,
                             AuctionActive = true,
                             AuctionDetails = "New event 1",
-                            AuctionStartDate = new DateTime(2023, 10, 18, 13, 53, 1, 45, DateTimeKind.Local).AddTicks(4162),
+                            AuctionStartDate = new DateTime(2023, 10, 21, 13, 1, 16, 833, DateTimeKind.Local).AddTicks(3153),
                             AuctioneerId = 1,
                             Category = "Vechicle",
                             ProductId = 1
@@ -217,7 +212,7 @@ namespace huutokauppa.Migrations
                             Id = 3,
                             AuctionActive = true,
                             AuctionDetails = "New event 3",
-                            AuctionStartDate = new DateTime(2023, 10, 18, 13, 53, 1, 45, DateTimeKind.Local).AddTicks(4251),
+                            AuctionStartDate = new DateTime(2023, 10, 21, 13, 1, 16, 833, DateTimeKind.Local).AddTicks(3225),
                             AuctioneerId = 2,
                             Category = "Vechicle",
                             ProductId = 3
@@ -231,29 +226,6 @@ namespace huutokauppa.Migrations
                             AuctioneerId = 2,
                             Category = "Electronic",
                             ProductId = 4
-                        });
-                });
-
-            modelBuilder.Entity("huutokauppa.Data.Models.AuctionBidder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AuctionBidders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1
-                        },
-                        new
-                        {
-                            Id = 2
                         });
                 });
 
@@ -288,25 +260,26 @@ namespace huutokauppa.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AuctionBidderId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("AuctionId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("BidAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("ParticipateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuctionBidderId");
-
                     b.HasIndex("AuctionId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ParticipateId");
 
                     b.ToTable("Bids");
 
@@ -516,37 +489,32 @@ namespace huutokauppa.Migrations
                 {
                     b.HasOne("huutokauppa.Data.Models.Auction", null)
                         .WithMany("Messages")
-                        .HasForeignKey("AuctionId");
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Api.Data.Models.Participate", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ParticipateId");
                 });
 
-            modelBuilder.Entity("AuctionAuctionBidder", b =>
+            modelBuilder.Entity("Api.Data.Models.Participate", b =>
                 {
-                    b.HasOne("huutokauppa.Data.Models.AuctionBidder", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionBiddersId")
+                    b.HasOne("huutokauppa.Data.Models.Auction", "Auction")
+                        .WithMany("Participates")
+                        .HasForeignKey("AuctionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("huutokauppa.Data.Models.Auction", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuctionBidderUser", b =>
-                {
-                    b.HasOne("huutokauppa.Data.Models.AuctionBidder", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionBiddersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("huutokauppa.Data.Models.User", null)
+                    b.HasOne("huutokauppa.Data.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AuctioneerUser", b =>
@@ -583,21 +551,13 @@ namespace huutokauppa.Migrations
 
             modelBuilder.Entity("huutokauppa.Data.Models.Bid", b =>
                 {
-                    b.HasOne("huutokauppa.Data.Models.AuctionBidder", null)
-                        .WithMany("MyBids")
-                        .HasForeignKey("AuctionBidderId");
-
                     b.HasOne("huutokauppa.Data.Models.Auction", null)
                         .WithMany("Bids")
                         .HasForeignKey("AuctionId");
 
-                    b.HasOne("huutokauppa.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.HasOne("Api.Data.Models.Participate", null)
+                        .WithMany("Bids")
+                        .HasForeignKey("ParticipateId");
                 });
 
             modelBuilder.Entity("huutokauppa.Data.Models.Photo", b =>
@@ -614,16 +574,20 @@ namespace huutokauppa.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("huutokauppa.Data.Models.Auction", b =>
+            modelBuilder.Entity("Api.Data.Models.Participate", b =>
                 {
                     b.Navigation("Bids");
 
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("huutokauppa.Data.Models.AuctionBidder", b =>
+            modelBuilder.Entity("huutokauppa.Data.Models.Auction", b =>
                 {
-                    b.Navigation("MyBids");
+                    b.Navigation("Bids");
+
+                    b.Navigation("Messages");
+
+                    b.Navigation("Participates");
                 });
 
             modelBuilder.Entity("huutokauppa.Data.Models.Auctioneer", b =>

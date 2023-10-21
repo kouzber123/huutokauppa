@@ -16,8 +16,7 @@ namespace huutokauppa.Data.DTO
         public string Address { get; set; }
         public string Photo { get; set; }
 
-        public List<AuctionBidderDto> AuctionBidders { get; set; }
 
-        public List<AuctioneerDto> Auctioneers { get; set; }
+        public List<AuctioneerDto> Auctioneers { get; set; } = new List<AuctioneerDto>();
     }
 }

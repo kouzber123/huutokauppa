@@ -32,7 +32,7 @@ namespace huutokauppa.Controllers
         public async Task<ActionResult<FullAuctionDto>> GetProductById(int id)
         {
 
-            return await _product.GetProductAsync(id);
+            return await _product.GetProductByIdAsync(id);
         }
 
         [HttpPost("create-auction")]

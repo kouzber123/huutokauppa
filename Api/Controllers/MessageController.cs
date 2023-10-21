@@ -23,5 +23,12 @@ namespace Api.Controllers
         {
             return await _message.GetMessageListAsync();
         }
+
+        [HttpPost("{auctionId}")]
+
+        public async Task<ActionResult> AddComment(int auctionId, MessageDto messageDto) {
+
+            return await _message.CreateMessageAsync(auctionId, messageDto);
+        }
     }
 }

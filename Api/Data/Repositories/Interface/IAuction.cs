@@ -15,7 +15,7 @@ namespace Api.Data.Repositories.Interface
         //create auction
         public Task<ActionResult> CeateAuctionAsync(int userId, AuctionProductDto auctionProductDto);
         //edit auction
-
+        public Task<ActionResult<FullAuctionDto>> GetAuctionByIdAsync(int id);
         //remove auction
 
         //product will be added to auction

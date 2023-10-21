@@ -11,7 +11,7 @@ namespace huutokauppa.Data.Repositories.Interface
 {
     public interface IProduct
     {
-        Task<ActionResult<FullAuctionDto>> GetProductAsync(int id);
+        Task<ActionResult<FullAuctionDto>> GetProductByIdAsync(int id);
         Task<Product> GetLatestProductAsync(int userId);
         Task<ActionResult<List<ProductDto>>> GetProductListAsync();
         Task<ActionResult<CreateProductDto>> CreateProductAsync(ProductDto product);

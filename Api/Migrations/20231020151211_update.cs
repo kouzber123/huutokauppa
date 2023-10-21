@@ -8,23 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace huutokauppa.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AuctionBidders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuctionBidders", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Auctioneers",
                 columns: table => new
@@ -57,30 +45,6 @@ namespace huutokauppa.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AuctionBidderUser",
-                columns: table => new
-                {
-                    AuctionBiddersId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuctionBidderUser", x => new { x.AuctionBiddersId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_AuctionBidderUser_AuctionBidders_AuctionBiddersId",
-                        column: x => x.AuctionBiddersId,
-                        principalTable: "AuctionBidders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuctionBidderUser_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,7 +110,8 @@ namespace huutokauppa.Migrations
                     AuctionStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FormattedAuctionStartDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AuctionActive = table.Column<bool>(type: "bit", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HostName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,59 +151,24 @@ namespace huutokauppa.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuctionAuctionBidder",
-                columns: table => new
-                {
-                    AuctionBiddersId = table.Column<int>(type: "int", nullable: false),
-                    AuctionsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuctionAuctionBidder", x => new { x.AuctionBiddersId, x.AuctionsId });
-                    table.ForeignKey(
-                        name: "FK_AuctionAuctionBidder_AuctionBidders_AuctionBiddersId",
-                        column: x => x.AuctionBiddersId,
-                        principalTable: "AuctionBidders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuctionAuctionBidder_Auctions_AuctionsId",
-                        column: x => x.AuctionsId,
-                        principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Bids",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    User = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AuctionBidderId = table.Column<int>(type: "int", nullable: true),
                     AuctionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bids", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bids_AuctionBidders_AuctionBidderId",
-                        column: x => x.AuctionBidderId,
-                        principalTable: "AuctionBidders",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Bids_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Bids_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,10 +180,9 @@ namespace huutokauppa.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    IsProductOwner = table.Column<bool>(type: "bit", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuctionId = table.Column<int>(type: "int", nullable: true)
+                    AuctionId = table.Column<int>(type: "int", nullable: false),
+                    IsAuctionOwner = table.Column<bool>(type: "bit", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,16 +191,8 @@ namespace huutokauppa.Migrations
                         name: "FK_Messages_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.InsertData(
-                table: "AuctionBidders",
-                column: "Id",
-                values: new object[]
-                {
-                    1,
-                    2
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -284,14 +205,12 @@ namespace huutokauppa.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Messages",
-                columns: new[] { "Id", "AuctionId", "Content", "IsProductOwner", "ProductId", "Sender", "Timestamp", "UserId" },
+                table: "Bids",
+                columns: new[] { "Id", "AuctionId", "BidAmount", "User", "UserId" },
                 values: new object[,]
                 {
-                    { 1, null, "I want this", true, 1, "haggins", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7047), 1 },
-                    { 2, null, "how much", false, 2, "haggins", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7050), 1 },
-                    { 3, null, "do you sell winter tires", true, 2, "david", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7051), 2 },
-                    { 4, null, "no more scams!", false, 1, "david", new DateTime(2023, 10, 18, 10, 41, 3, 178, DateTimeKind.Utc).AddTicks(7053), 2 }
+                    { 1, null, 100.00m, null, 1 },
+                    { 2, null, 150.00m, null, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -325,33 +244,25 @@ namespace huutokauppa.Migrations
 
             migrationBuilder.InsertData(
                 table: "Auctions",
-                columns: new[] { "Id", "AuctionActive", "AuctionDetails", "AuctionStartDate", "AuctioneerId", "Category", "FormattedAuctionStartDate", "ProductId", "Region" },
+                columns: new[] { "Id", "AuctionActive", "AuctionDetails", "AuctionStartDate", "AuctioneerId", "Category", "FormattedAuctionStartDate", "HostName", "ProductId", "Region" },
                 values: new object[,]
                 {
-                    { 1, true, "New event 1", new DateTime(2023, 10, 18, 13, 41, 3, 178, DateTimeKind.Local).AddTicks(6962), 1, "Vechicle", null, 1, null },
-                    { 2, false, "New event 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Music", null, 2, null },
-                    { 3, true, "New event 3", new DateTime(2023, 10, 18, 13, 41, 3, 178, DateTimeKind.Local).AddTicks(7027), 2, "Vechicle", null, 3, null },
-                    { 4, false, "New event 4", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Electronic", null, 4, null }
+                    { 1, true, "New event 1", new DateTime(2023, 10, 20, 18, 12, 11, 91, DateTimeKind.Local).AddTicks(7381), 1, "Vechicle", null, null, 1, null },
+                    { 2, false, "New event 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Music", null, null, 2, null },
+                    { 3, true, "New event 3", new DateTime(2023, 10, 20, 18, 12, 11, 91, DateTimeKind.Local).AddTicks(7431), 2, "Vechicle", null, null, 3, null },
+                    { 4, false, "New event 4", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Electronic", null, null, 4, null }
                 });
 
             migrationBuilder.InsertData(
-                table: "Bids",
-                columns: new[] { "Id", "AuctionBidderId", "AuctionId", "BidAmount", "UserId" },
+                table: "Messages",
+                columns: new[] { "Id", "AuctionId", "Content", "IsAuctionOwner", "Sender", "Timestamp", "UserId" },
                 values: new object[,]
                 {
-                    { 1, null, null, 100.00m, 1 },
-                    { 2, null, null, 150.00m, 2 }
+                    { 1, 1, "I want this", true, "haggins", new DateTime(2023, 10, 20, 15, 12, 11, 91, DateTimeKind.Utc).AddTicks(7452), 1 },
+                    { 2, 2, "how much", false, "haggins", new DateTime(2023, 10, 20, 15, 12, 11, 91, DateTimeKind.Utc).AddTicks(7455), 1 },
+                    { 3, 2, "do you sell winter tires", true, "david", new DateTime(2023, 10, 20, 15, 12, 11, 91, DateTimeKind.Utc).AddTicks(7457), 2 },
+                    { 4, 1, "no more scams!", false, "david", new DateTime(2023, 10, 20, 15, 12, 11, 91, DateTimeKind.Utc).AddTicks(7458), 2 }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuctionAuctionBidder_AuctionsId",
-                table: "AuctionAuctionBidder",
-                column: "AuctionsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuctionBidderUser_UserId",
-                table: "AuctionBidderUser",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuctioneerUser_UserId",
@@ -369,19 +280,9 @@ namespace huutokauppa.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bids_AuctionBidderId",
-                table: "Bids",
-                column: "AuctionBidderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Bids_AuctionId",
                 table: "Bids",
                 column: "AuctionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bids_UserId",
-                table: "Bids",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_AuctionId",
@@ -403,12 +304,6 @@ namespace huutokauppa.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuctionAuctionBidder");
-
-            migrationBuilder.DropTable(
-                name: "AuctionBidderUser");
-
-            migrationBuilder.DropTable(
                 name: "AuctioneerUser");
 
             migrationBuilder.DropTable(
@@ -419,9 +314,6 @@ namespace huutokauppa.Migrations
 
             migrationBuilder.DropTable(
                 name: "Photos");
-
-            migrationBuilder.DropTable(
-                name: "AuctionBidders");
 
             migrationBuilder.DropTable(
                 name: "Auctions");

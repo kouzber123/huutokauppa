@@ -6,16 +6,14 @@ using huutokauppa.Data.Models;
 
 namespace Api.Data.Models
 {
-    public class Message
+    public class Participate
     {
         public int Id { get; set; }
-        public string Content { get; set; }
-        public string Sender { get; set; }
         public int UserId { get; set; }
+        public User User { get; set; }
         public int AuctionId { get; set; }
-        public bool IsAuctionOwner { get; set; }
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-
-
+        public Auction Auction { get; set; }
+        public List<Message> Messages { get; set; } = new List<Message>();
+        public List<Bid> Bids { get; set; } = new List<Bid>();
     }
 }

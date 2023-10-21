@@ -17,13 +17,13 @@ namespace huutokauppa.Data.context
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Photo> Photos { get; set; }
-        public DbSet<AuctionBidder> AuctionBidders { get; set; }
+
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Auctioneer> Auctioneers { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Message> Messages { get; set; }
 
-
+        public DbSet<Participate> Participates { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -49,15 +49,10 @@ namespace huutokauppa.Data.context
                 new Auction { Id = 4, AuctionActive = false, AuctionDetails = "New event 4", ProductId = 4, Category = "Electronic", AuctioneerId = 2 }
             );
             modelBuilder.Entity<Message>().HasData(
-                new Message { Id = 1, Sender = "haggins", Content = "I want this", UserId = 1, IsProductOwner = true, ProductId = 1 },
-                new Message { Id = 2, Sender = "haggins", Content = "how much", UserId = 1, IsProductOwner = false, ProductId = 2 },
-                new Message { Id = 3, Sender = "david", Content = "do you sell winter tires", UserId = 2, IsProductOwner = true, ProductId = 2 },
-                new Message { Id = 4, Sender = "david", Content = "no more scams!", UserId = 2, IsProductOwner = false, ProductId = 1 }
-            );
-            modelBuilder.Entity<AuctionBidder>().HasData(
-                new AuctionBidder { Id = 1 },
-                new AuctionBidder { Id = 2 }
-            // Add more AuctionBidder data as needed
+                new Message { Id = 1, Sender = "haggins", Content = "I want this", UserId = 1, IsAuctionOwner = true, AuctionId = 1 },
+                new Message { Id = 2, Sender = "haggins", Content = "how much", UserId = 1, IsAuctionOwner = false, AuctionId = 2 },
+                new Message { Id = 3, Sender = "david", Content = "do you sell winter tires", UserId = 2, IsAuctionOwner = true, AuctionId = 2 },
+                new Message { Id = 4, Sender = "david", Content = "no more scams!", UserId = 2, IsAuctionOwner = false, AuctionId = 1 }
             );
 
 

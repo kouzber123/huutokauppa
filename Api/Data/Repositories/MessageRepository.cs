@@ -19,6 +19,28 @@ namespace Api.Data.Repositories
             _datacontext = datacontext;
         }
 
+        public async Task<ActionResult> CreateMessageAsync(int auctionId, MessageDto messageDto)
+        {
+            var existingUser = await _datacontext.Users.FirstOrDefaultAsync(x => x.Id == messageDto.UserId);
+            var existingAuction = await _datacontext.Auctions.FirstOrDefaultAsync(x => x.Id == auctionId);
+            if (existingUser is null || existingAuction is null) return null;
+
+            var newMessage = new Message
+            {
+
+                Sender = $"{existingUser.Fname} {existingUser.Lname}",
+                Content = messageDto.Content,
+                UserId = existingUser.Id,
+                AuctionId = auctionId,
+                IsAuctionOwner = existingAuction.AuctioneerId == existingUser.Id,
+            };
+            await _datacontext.Messages.AddAsync(newMessage);
+            existingAuction.Messages.Add(newMessage);
+            await _datacontext.SaveChangesAsync();
+            return new OkResult();
+
+        }
+
         public async Task<ActionResult<List<MessageDto>>> GetMessageListAsync()
         {
             var messages = await _datacontext.Messages.ToListAsync();
@@ -30,7 +52,10 @@ namespace Api.Data.Repositories
                 {
                     Sender = message.Sender,
                     Content = message.Content,
-                    Timestamp = message.Timestamp
+                    Timestamp = message.Timestamp,
+                    UserId = message.UserId,
+                    AuctionId = message.AuctionId,
+                    IsAuctionOwner = message.IsAuctionOwner
                 };
 
                 messageListDto.Add(msg);
